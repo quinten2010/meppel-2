@@ -1,7 +1,7 @@
 import LoadingScreen from "@/components/LoadingScreen";
 import HeroSection from "@/components/HeroSection";
 import WaterwaysSection from "@/components/WaterwaysSection";
-import DiscoveryMapSection from "@/components/DiscoveryMapSection";
+import TradeRoutesSection from "@/components/TradeRoutesSection";
 import HistoricalTimelineSection from "@/components/HistoricalTimelineSection";
 import FeaturedLocationsSection from "@/components/FeaturedLocationsSection";
 import GallerySection from "@/components/GallerySection";
@@ -15,7 +15,7 @@ export default function Home() {
       <main className="relative bg-black">
         <HeroSection />
         <WaterwaysSection />
-        <DiscoveryMapSection />
+        <TradeRoutesSection />
         <HistoricalTimelineSection />
         <FeaturedLocationsSection />
         <GallerySection />
