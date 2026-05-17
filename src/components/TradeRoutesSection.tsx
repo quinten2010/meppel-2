@@ -8,11 +8,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const tradeRoutes = [
-  { id: 1, name: "Peat Flow", destination: "Amsterdam", goods: "Peat", period: "1141–1500s", key: "Fuel for Dutch cities", intensity: 1 },
+  { id: 1, name: "Peat Flow", destination: "Amsterdam & Holland", goods: "Peat 'brown gold'", period: "1141–1500s", key: "Primary fuel for Dutch cities", intensity: 1 },
   { id: 2, name: "Grain Route", destination: "Northern Netherlands", goods: "Rye, Oats", period: "1300s–1600s", key: "Agricultural foundation", intensity: 0.8 },
-  { id: 3, name: "Wood Supply", destination: "Friesland", goods: "Timber", period: "1200s–1400s", key: "Construction material", intensity: 0.6 },
-  { id: 4, name: "Wool Transport", destination: "Germany", goods: "Wool, Linen", period: "1400s–1700s", key: "Textile trade", intensity: 0.9 },
-  { id: 5, name: "Livestock", destination: "Holland", goods: "Cattle", period: "1500s–1800s", key: "Meat and dairy", intensity: 0.7 },
+  { id: 3, name: "Wood Supply", destination: "Friesland & Beyond", goods: "Timber", period: "1200s–1400s", key: "Construction and shipbuilding", intensity: 0.6 },
+  { id: 4, name: "Wool Transport", destination: "Germany & Low Countries", goods: "Wool, Linen, Eversdoek", period: "1400s–1700s", key: "Textile trade, sailcloth production", intensity: 0.9 },
+  { id: 5, name: "Livestock", destination: "Holland", goods: "Cattle, Piglet Market", period: "1500s–1800s", key: "Meat and dairy, 'Biggenmarkt'", intensity: 0.7 },
+  { id: 6, name: "Pharmaceuticals", destination: "Global", goods: "Gist-Brocades products", period: "1860s–present", key: "Industrial chemicals", intensity: 0.85 },
+  { id: 7, name: "Printing Goods", destination: "Netherlands", goods: "Printed materials", period: "1890s–1950s", key: "Publishing hub", intensity: 0.75 },
 ];
 
 function FlowingRoute({ route, isActive, index }: { route: typeof tradeRoutes[0]; isActive: boolean; index: number }) {
@@ -39,7 +41,7 @@ function FlowingRoute({ route, isActive, index }: { route: typeof tradeRoutes[0]
       ref={routeRef}
       className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-transparent"
       style={{
-        top: `${20 + index * 15}%`,
+        top: `${15 + index * 12}%`,
         filter: `blur(${isActive ? 2 : 0}px)`,
         boxShadow: isActive ? "0 0 20px rgba(99, 103, 241, 0.5)" : "none",
       }}
@@ -49,7 +51,7 @@ function FlowingRoute({ route, isActive, index }: { route: typeof tradeRoutes[0]
 
 export default function TradeRoutesSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [activeRoutes, setActiveRoutes] = useState([false, false, false, false, false]);
+  const [activeRoutes, setActiveRoutes] = useState([false, false, false, false, false, false, false]);
   const [hoveredRoute, setHoveredRoute] = useState<number | null>(null);
   const ctxRef = useRef<ReturnType<typeof gsap.context> | null>(null);
 
@@ -103,7 +105,8 @@ export default function TradeRoutesSection() {
               <span className="gradient-text"> Currents</span>
             </h2>
             <p className="text-lg text-white/50 max-w-2xl mx-auto">
-              Peat moved south through Meppel&apos;s canal arteries toward Holland&apos;s cities
+              Peat moved south through Meppel&apos;s canal arteries toward Holland&apos;s cities,
+              establishing the foundation for 900 years of commerce
             </p>
           </div>
 
@@ -116,21 +119,21 @@ export default function TradeRoutesSection() {
               </div>
             </div>
 
-            <div className="absolute bottom-0 left-0 right-0 grid grid-cols-2 md:grid-cols-5 gap-4 p-8">
+            <div className="absolute bottom-0 left-0 right-0 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 p-6">
               {tradeRoutes.map((route, i) => (
                 <motion.div
                   key={route.id}
-                  className="glass rounded-2xl p-4 cursor-pointer relative"
+                  className="glass rounded-2xl p-3 cursor-pointer relative"
                   onHoverStart={() => setHoveredRoute(i)}
                   onHoverEnd={() => setHoveredRoute(null)}
                   whileHover={{ y: -5, scale: 1.02 }}
                 >
-                  <div className="text-sm font-medium text-white mb-1">{route.name}</div>
-                  <div className="text-xs text-white/50 mb-1">{route.destination}</div>
-                  <div className="text-xs text-indigo-300">{route.goods}</div>
+                  <div className="text-xs font-medium text-white mb-1">{route.name}</div>
+                  <div className="text-[10px] text-white/50 mb-1">{route.destination}</div>
+                  <div className="text-[10px] text-indigo-300">{route.goods}</div>
                   {hoveredRoute === i && (
                     <motion.div
-                      className="absolute -top-16 left-0 glass-strong rounded-lg p-3 text-xs whitespace-nowrap z-20"
+                      className="absolute -top-16 left-0 glass-strong rounded-lg p-2 text-[10px] whitespace-nowrap z-20"
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}

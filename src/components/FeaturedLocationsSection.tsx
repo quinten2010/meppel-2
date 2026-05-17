@@ -6,45 +6,67 @@ import { useRef } from "react";
 const locations = [
   {
     id: 1,
-    name: "Peat Transport Canals",
-    description: "Engineered waterways that carried the wealth of Drenthe across the Netherlands",
-    category: "Industry",
-    icon: "⛏️",
-  },
-  {
-    id: 2,
-    name: "Merchant Guildhalls",
-    description: "15th-century trading houses where merchants negotiated international deals",
-    category: "Commerce",
-    icon: "🏢",
-  },
-  {
-    id: 3,
-    name: "Historic Warehouses",
-    description: "Massive storage complexes that held wool, linen, and grain for European trade",
-    category: "Architecture",
-    icon: "🏗️",
-  },
-  {
-    id: 4,
-    name: "St. Nicolaaskerk",
-    description: "Gothic landmark witnessing 700 years of Meppel's spiritual and civic life",
+    name: "Grote of Mariakerk",
+    description: "1422 hall church with monumental tower, built after parish independence. Features Schnitger organ (1721) and cupola added in 1827.",
     category: "Heritage",
+    year: "1422",
     icon: "⛪",
   },
   {
+    id: 2,
+    name: "Slot de Kinckhorst",
+    description: "1509 fortress constructed by Drost Roelof van Munster for Drenthe's independence. Military bastion during Eighty Years' War.",
+    category: "Military",
+    year: "1509",
+    icon: "🏰",
+  },
+  {
+    id: 3,
+    name: "Historic Harbor Quarter",
+    description: "Medieval docking area where ships unloaded goods from across Europe. Site of the 'Poort van Drenthe' market privileges (1460).",
+    category: "Commerce",
+    year: "1460",
+    icon: "⚓",
+  },
+  {
+    id: 4,
+    name: "Merchant Guildhalls",
+    description: "15th-century trading houses where merchants negotiated international deals. Center of shippers' guild dominance by 1600s.",
+    category: "Architecture",
+    year: "1400s",
+    icon: "🏢",
+  },
+  {
     id: 5,
-    name: "Vecht River Network",
-    description: "Natural water highway connecting Meppel to Amsterdam and beyond",
+    name: "Meppelerdiep Canal",
+    description: "Natural water highway connecting Meppel to Amsterdam. Deepened in 1541 for larger vessels, accommodating 2000-ton ships by 1928.",
     category: "Geography",
+    year: "1541",
     icon: "🌊",
   },
   {
     id: 6,
-    name: "Old Harbour Quarter",
-    description: "Medieval docking area where ships unloaded goods from across Europe",
-    category: "History",
-    icon: "⚓",
+    name: "Schouwburg Ogterop",
+    description: "1886 regional theater enriching cultural life. One of the premier cultural venues in the northeast Netherlands.",
+    category: "Culture",
+    year: "1886",
+    icon: "🎭",
+  },
+  {
+    id: 7,
+    name: "Jewish Cemetery at Het Boddenkampje",
+    description: "1767 site formalizing Jewish community presence. Purchased during the formalization of Meppel's significant Jewish population.",
+    category: "Heritage",
+    year: "1767",
+    icon: "🕍",
+  },
+  {
+    id: 8,
+    name: "Railway Station",
+    description: "1867 connection catalyzing industrial growth. Shifted economic focus from water to rail transport, enabling 'Little Rotterdam' era.",
+    category: "Transport",
+    year: "1867",
+    icon: "🚂",
   },
 ];
 
@@ -86,13 +108,13 @@ export default function FeaturedLocationsSection() {
             <span className="gradient-text"> Landmarks</span>
           </h2>
           <p className="text-lg text-white/50 max-w-2xl mx-auto">
-            Discover the physical remnants of Meppel&apos;s maritime heritage
+            Discover the physical remnants of Meppel&apos;s maritime heritage and cultural legacy
           </p>
         </motion.div>
 
         <motion.div
           ref={ref}
-          className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+          className="grid gap-8 md:grid-cols-2 lg:grid-cols-4"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -115,6 +137,7 @@ export default function FeaturedLocationsSection() {
                 </div>
 
                 <h3 className="mb-4 text-3xl font-bold text-white">{location.name}</h3>
+                <div className="text-xs text-indigo-400 mb-2">{location.year}</div>
 
                 <p className="mb-8 text-white/50 leading-relaxed">{location.description}</p>
 

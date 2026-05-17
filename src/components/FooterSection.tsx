@@ -38,7 +38,8 @@ export default function FooterSection() {
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
               >
-                An immersive journey through 900 years of Dutch maritime heritage, where water shaped a city.
+                An immersive journey through 900 years of Dutch maritime heritage, from 1141 to present.
+                The Chronological Topography and Socio-Economic Metamorphosis of Meppel.
               </motion.p>
 
               <motion.div
@@ -48,7 +49,7 @@ export default function FooterSection() {
                 viewport={{ once: true }}
                 transition={{ delay: 0.3 }}
               >
-                {["Twitter", "Instagram", "LinkedIn"].map((social) => (
+                {["About", "Sources", "Credits", "Privacy"].map((social) => (
                   <motion.a
                     key={social}
                     href="#"
@@ -78,7 +79,7 @@ export default function FooterSection() {
               <div>
                 <h4 className="mb-6 text-sm font-semibold text-white/60 uppercase tracking-wider">Connect</h4>
                 <ul className="space-y-4 text-base">
-                  {["About", "Source", "Credits", "Privacy"].map((item) => (
+                  {["Research", "Archive", "References", "Contact"].map((item) => (
                     <li key={item}>
                       <a href="#" className="text-white/50 transition-all hover:text-white">
                         {item}
@@ -97,7 +98,7 @@ export default function FooterSection() {
             viewport={{ once: true }}
             transition={{ delay: 0.4 }}
           >
-            © 2024 Meppel Discovery. A cinematic historical experience.
+            © 2024 Meppel Discovery. Historical research and analysis for educational purposes.
           </motion.div>
         </motion.div>
       </div>

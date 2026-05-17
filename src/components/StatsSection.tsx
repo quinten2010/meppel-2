@@ -4,10 +4,10 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 
 const stats = [
-  { value: 883, label: "Years of History", suffix: "+" },
-  { value: 50, label: "Canal Miles", suffix: "+" },
-  { value: 100, label: "Merchant Houses", suffix: "+" },
-  { value: 12, label: "Peat Ships", suffix: "+" },
+  { value: 885, label: "Years of History", suffix: "+" },
+  { value: 36616, label: "Population (2026 est)", suffix: "+" },
+  { value: 25, label: "Timeline Intervals", suffix: "+" },
+  { value: 1500000, label: "Annual Visitors", suffix: "+" },
 ];
 
 function CountUp({ value, suffix }: { value: number; suffix: string }) {
@@ -32,7 +32,7 @@ function CountUp({ value, suffix }: { value: number; suffix: string }) {
     requestAnimationFrame(animate);
   }, [isInView, value]);
 
-  return <span ref={ref}>{displayValue}{suffix}</span>;
+  return <span ref={ref}>{displayValue.toLocaleString()}{suffix}</span>;
 }
 
 export default function StatsSection() {
@@ -58,7 +58,7 @@ export default function StatsSection() {
             <span className="gradient-text"> Numbers</span>
           </h2>
           <p className="text-lg text-white/50 max-w-2xl mx-auto">
-            Measurable legacy of Meppel&apos;s maritime heritage
+            Quantitative perspective on Meppel&apos;s development
           </p>
         </motion.div>
 

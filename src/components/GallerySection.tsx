@@ -4,12 +4,12 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 const galleryItems = [
-  { id: 1, title: "Harbor at Dawn", category: "1600s" },
-  { id: 2, title: "Market Square", category: "1487" },
-  { id: 3, title: "Canal Transportation", category: "1700s" },
-  { id: 4, title: "Parish Church Interior", category: "1422" },
-  { id: 5, title: "Peat Barges", category: "1500s" },
-  { id: 6, title: "Winter on the Vecht", category: "1800s" },
+  { id: 1, title: "Grote Kerk Under Construction", category: "1422", era: "Parish Independence" },
+  { id: 2, title: "Market Square during Jaarmarkt", category: "1487", era: "Market Privileges" },
+  { id: 3, title: "Peat Barges on Meppelerdiep", category: "1541", era: "Peat Hegemony" },
+  { id: 4, title: "Schnitger Organ Interior", category: "1721", era: "Cultural Sophistication" },
+  { id: 5, title: "Railway Station Opening Day", category: "1867", era: "Transportation Revolution" },
+  { id: 6, title: "Schouwburg Ogterop Exterior", category: "1886", era: "Cultural Flourishing" },
 ];
 
 export default function GallerySection() {
@@ -50,7 +50,7 @@ export default function GallerySection() {
             <span className="gradient-text"> Archive</span>
           </h2>
           <p className="text-lg text-white/50 max-w-2xl mx-auto">
-            Visual remnants of Meppel&apos;s evolving landscape
+            Visual remnants of Meppel&apos;s evolving landscape from 1141 to present
           </p>
         </motion.div>
 
@@ -77,6 +77,7 @@ export default function GallerySection() {
                   {item.category}
                 </div>
                 <h3 className="text-2xl font-bold text-white">{item.title}</h3>
+                <div className="text-xs text-white/50 mt-1">{item.era}</div>
               </div>
 
               <motion.div

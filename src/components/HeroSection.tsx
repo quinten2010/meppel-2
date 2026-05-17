@@ -73,7 +73,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-          A cinematic journey through 900 years of Dutch maritime heritage
+          A cinematic journey through 900 years of Dutch maritime heritage, from 1141 to present
         </motion.p>
 
         <motion.div
