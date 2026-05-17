@@ -8,11 +8,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const tradeRoutes = [
-  { id: 1, name: "Peat Flow", destination: "Amsterdam", goods: "Peat", period: "1141–1500s", intensity: 1 },
-  { id: 2, name: "Grain Route", destination: "Northern Netherlands", goods: "Rye, Oats", period: "1300s–1600s", intensity: 0.8 },
-  { id: 3, name: "Wood Supply", destination: "Friesland", goods: "Timber", period: "1200s–1400s", intensity: 0.6 },
-  { id: 4, name: "Wool Transport", destination: "Germany", goods: "Wool, Linen", period: "1400s–1700s", intensity: 0.9 },
-  { id: 5, name: "Livestock", destination: "Holland", goods: "Cattle", period: "1500s–1800s", intensity: 0.7 },
+  { id: 1, name: "Peat Flow", destination: "Amsterdam", goods: "Peat", period: "1141–1500s", key: "Fuel for Dutch cities", intensity: 1 },
+  { id: 2, name: "Grain Route", destination: "Northern Netherlands", goods: "Rye, Oats", period: "1300s–1600s", key: "Agricultural foundation", intensity: 0.8 },
+  { id: 3, name: "Wood Supply", destination: "Friesland", goods: "Timber", period: "1200s–1400s", key: "Construction material", intensity: 0.6 },
+  { id: 4, name: "Wool Transport", destination: "Germany", goods: "Wool, Linen", period: "1400s–1700s", key: "Textile trade", intensity: 0.9 },
+  { id: 5, name: "Livestock", destination: "Holland", goods: "Cattle", period: "1500s–1800s", key: "Meat and dairy", intensity: 0.7 },
 ];
 
 function FlowingRoute({ route, isActive, index }: { route: typeof tradeRoutes[0]; isActive: boolean; index: number }) {
@@ -37,7 +37,7 @@ function FlowingRoute({ route, isActive, index }: { route: typeof tradeRoutes[0]
   return (
     <div
       ref={routeRef}
-      className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-transparent transition-all duration-1000"
+      className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-transparent"
       style={{
         top: `${20 + index * 15}%`,
         filter: `blur(${isActive ? 2 : 0}px)`,
@@ -51,7 +51,6 @@ export default function TradeRoutesSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [activeRoutes, setActiveRoutes] = useState([false, false, false, false, false]);
   const [hoveredRoute, setHoveredRoute] = useState<number | null>(null);
-
   const ctxRef = useRef<ReturnType<typeof gsap.context> | null>(null);
 
   useEffect(() => {
@@ -137,7 +136,7 @@ export default function TradeRoutesSection() {
                       exit={{ opacity: 0, y: 10 }}
                     >
                       <div className="text-white font-medium mb-1">{route.period}</div>
-                      <div className="text-white/60">Historical trade corridor</div>
+                      <div className="text-white/60">{route.key}</div>
                     </motion.div>
                   )}
                 </motion.div>

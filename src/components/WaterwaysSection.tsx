@@ -16,7 +16,7 @@ export default function WaterwaysSection() {
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        ".water-wave",
+        ".water-flow",
         { backgroundPosition: "0% 0%" },
         {
           backgroundPosition: "100% 0%",
@@ -31,13 +31,13 @@ export default function WaterwaysSection() {
   }, []);
 
   return (
-    <section ref={ref} id="waterways" className="relative h-screen py-40">
+    <section ref={ref} className="relative h-screen py-40">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black" />
         <div
-          className="water-wave absolute inset-0 opacity-30"
+          className="water-flow absolute inset-0 opacity-30"
           style={{
-            background: "radial-gradient(circle at 50% 50%, rgba(99, 103, 241, 0.1) 0%, transparent 70%)",
+            background: "radial-gradient(circle at 30% 50%, rgba(99, 103, 241, 0.15) 0%, transparent 70%)",
             backgroundSize: "200% 200%",
           }}
         />
@@ -57,13 +57,13 @@ export default function WaterwaysSection() {
           </h2>
 
           <p className="text-xl text-white/60 mb-16 leading-relaxed">
-            Meppel&apos;s destiny was shaped by waterways. Canals carved through peat bogs became arteries of commerce,
-            carrying the wealth that would build a city.
+            Meppel began as a small settlement of farms, but water gave it scale,
+            trade gave it purpose, and time gave it identity.
           </p>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { label: "Peat Trade", value: "1350s" },
+              { label: "Peat Transport", value: "1644" },
               { label: "Canal Miles", value: "50+" },
               { label: "Merchant Houses", value: "100+" },
               { label: "Trade Routes", value: "12+" },

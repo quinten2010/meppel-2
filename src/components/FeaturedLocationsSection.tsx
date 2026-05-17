@@ -9,42 +9,42 @@ const locations = [
     name: "Peat Transport Canals",
     description: "Engineered waterways that carried the wealth of Drenthe across the Netherlands",
     category: "Industry",
-    image: "⛏️",
+    icon: "⛏️",
   },
   {
     id: 2,
     name: "Merchant Guildhalls",
     description: "15th-century trading houses where merchants negotiated international deals",
     category: "Commerce",
-    image: "🏢",
+    icon: "🏢",
   },
   {
     id: 3,
     name: "Historic Warehouses",
     description: "Massive storage complexes that held wool, linen, and grain for European trade",
     category: "Architecture",
-    image: "🏗️",
+    icon: "🏗️",
   },
   {
     id: 4,
     name: "St. Nicolaaskerk",
     description: "Gothic landmark witnessing 700 years of Meppel's spiritual and civic life",
     category: "Heritage",
-    image: "⛪",
+    icon: "⛪",
   },
   {
     id: 5,
     name: "Vecht River Network",
     description: "Natural water highway connecting Meppel to Amsterdam and beyond",
     category: "Geography",
-    image: "🌊",
+    icon: "🌊",
   },
   {
     id: 6,
     name: "Old Harbour Quarter",
     description: "Medieval docking area where ships unloaded goods from across Europe",
     category: "History",
-    image: "⚓",
+    icon: "⚓",
   },
 ];
 
@@ -106,7 +106,7 @@ export default function FeaturedLocationsSection() {
               whileHover={{ y: -12, boxShadow: "0 40px 80px rgba(99, 103, 241, 0.15)" }}
             >
               <div className="absolute -right-16 -top-16 text-9xl opacity-5 transition-all group-hover:scale-110">
-                {location.image}
+                {location.icon}
               </div>
 
               <div className="relative">

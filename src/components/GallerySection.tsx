@@ -4,12 +4,12 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 const galleryItems = [
-  { id: 1, title: "Morning Mist over Meppel", category: "Landscape" },
-  { id: 2, title: "Historic Canal Houses", category: "Architecture" },
-  { id: 3, title: "Summer Festival Celebrations", category: "Events" },
-  { id: 4, title: "Autumn at Park Schoonoord", category: "Nature" },
-  { id: 5, title: "Evening Lights over the Vecht", category: "Scenic" },
-  { id: 6, title: "Winter Magic in the City Center", category: "Seasonal" },
+  { id: 1, title: "Harbor at Dawn", category: "1600s" },
+  { id: 2, title: "Market Square", category: "1487" },
+  { id: 3, title: "Canal Transportation", category: "1700s" },
+  { id: 4, title: "Parish Church Interior", category: "1422" },
+  { id: 5, title: "Peat Barges", category: "1500s" },
+  { id: 6, title: "Winter on the Vecht", category: "1800s" },
 ];
 
 export default function GallerySection() {
@@ -46,11 +46,11 @@ export default function GallerySection() {
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         >
           <h2 className="mb-8 text-6xl font-bold tracking-tighter text-white md:text-7xl lg:text-8xl">
-            Cinematic
-            <span className="gradient-text"> Gallery</span>
+            Historical
+            <span className="gradient-text"> Archive</span>
           </h2>
           <p className="text-lg text-white/50 max-w-2xl mx-auto">
-            A visual journey through Meppel&apos;s seasons and stories
+            Visual remnants of Meppel&apos;s evolving landscape
           </p>
         </motion.div>
 
