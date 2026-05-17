@@ -9,11 +9,11 @@ import { useEffect } from "react";
 gsap.registerPlugin(ScrollTrigger);
 
 const locations = [
-  { id: 1, name: "Historic Center", x: 30, y: 40, category: "History" },
-  { id: 2, name: "Meppeler Vecht", x: 55, y: 25, category: "Nature" },
-  { id: 3, name: "Museum Schaudefavorius", x: 45, y: 60, category: "Culture" },
-  { id: 4, name: "St. Nicolaaskerk", x: 25, y: 55, category: "Architecture" },
-  { id: 5, name: "Park Schoonoord", x: 65, y: 45, category: "Nature" },
+  { id: 1, name: "Historic Harbor", x: 30, y: 40, category: "1141" },
+  { id: 2, name: "Meppeler Vecht", x: 55, y: 25, category: "Trade Route" },
+  { id: 3, name: "Merchant Quarter", x: 45, y: 60, category: "1500s" },
+  { id: 4, name: "St. Nicolaaskerk", x: 25, y: 55, category: "Landmark" },
+  { id: 5, name: "Peat Transport Canal", x: 65, y: 45, category: "Industry" },
 ];
 
 export default function DiscoveryMapSection() {
@@ -51,11 +51,11 @@ export default function DiscoveryMapSection() {
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         >
           <h2 className="mb-8 text-6xl font-bold tracking-tighter text-white md:text-7xl lg:text-8xl">
-            Interactive
-            <span className="gradient-text"> Discovery Map</span>
+            Trade
+            <span className="gradient-text"> Routes</span>
           </h2>
           <p className="text-lg text-white/50 max-w-2xl mx-auto">
-            Explore Meppel&apos;s hidden gems through our immersive digital map
+            Navigate Meppel&apos;s historical water network that shaped centuries of commerce
           </p>
         </motion.div>
 
@@ -72,7 +72,20 @@ export default function DiscoveryMapSection() {
                   <stop offset="0%" stopColor="rgba(99, 103, 241, 0.4)" />
                   <stop offset="100%" stopColor="transparent" />
                 </radialGradient>
+                <linearGradient id="routeLine" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(99, 103, 241, 0.3)" />
+                  <stop offset="100%" stopColor="rgba(236, 72, 153, 0.3)" />
+                </linearGradient>
               </defs>
+
+              <path
+                d="M 20 30 C 35 20, 50 25, 60 40 S 75 55, 85 45"
+                fill="none"
+                stroke="url(#routeLine)"
+                strokeWidth="1"
+                strokeDasharray="4 2"
+                className="opacity-30"
+              />
 
               {locations.map((location, index) => (
                 <g key={location.id}>
@@ -121,13 +134,13 @@ export default function DiscoveryMapSection() {
                 transition={{ duration: 0.8, delay: 0.8 }}
               >
                 <div className="mb-3 text-2xl font-bold text-white">
-                  {locations[0].name}
+                  Historic Harbor
                 </div>
                 <div className="flex items-center gap-4 text-sm text-white/50">
                   <span className="rounded-full bg-indigo-500/20 px-4 py-1.5 text-indigo-300 font-medium">
-                    {locations[0].category}
+                    1141
                   </span>
-                  <span>Click on the map to explore</span>
+                  <span>Where Meppel first touched the water</span>
                 </div>
               </motion.div>
             </div>

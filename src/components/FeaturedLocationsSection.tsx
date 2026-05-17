@@ -6,45 +6,45 @@ import { useRef } from "react";
 const locations = [
   {
     id: 1,
-    name: "Historic Meppel",
-    description: "Step back in time through cobblestone streets and centuries-old architecture",
-    category: "History",
-    image: "🏛️",
+    name: "Peat Transport Canals",
+    description: "Engineered waterways that carried the wealth of Drenthe across the Netherlands",
+    category: "Industry",
+    image: "⛏️",
   },
   {
     id: 2,
-    name: "Meppeler Vecht",
-    description: "Picturesque waterways winding through lush landscapes",
-    category: "Nature",
-    image: "🌿",
+    name: "Merchant Guildhalls",
+    description: "15th-century trading houses where merchants negotiated international deals",
+    category: "Commerce",
+    image: "🏢",
   },
   {
     id: 3,
-    name: "Museum Schaudefavorius",
-    description: "Art and history converge in this cultural landmark",
-    category: "Culture",
-    image: "🎨",
+    name: "Historic Warehouses",
+    description: "Massive storage complexes that held wool, linen, and grain for European trade",
+    category: "Architecture",
+    image: "🏗️",
   },
   {
     id: 4,
     name: "St. Nicolaaskerk",
-    description: "Gothic architecture reaching toward the sky",
-    category: "Architecture",
+    description: "Gothic landmark witnessing 700 years of Meppel's spiritual and civic life",
+    category: "Heritage",
     image: "⛪",
   },
   {
     id: 5,
-    name: "Park Schoonoord",
-    description: "Tranquil gardens perfect for reflection and exploration",
-    category: "Nature",
-    image: "🌳",
+    name: "Vecht River Network",
+    description: "Natural water highway connecting Meppel to Amsterdam and beyond",
+    category: "Geography",
+    image: "🌊",
   },
   {
     id: 6,
-    name: "Hollandsche Ijssel",
-    description: "Where rivers meet history in the Dutch countryside",
-    category: "Scenic",
-    image: "🌅",
+    name: "Old Harbour Quarter",
+    description: "Medieval docking area where ships unloaded goods from across Europe",
+    category: "History",
+    image: "⚓",
   },
 ];
 
@@ -82,11 +82,11 @@ export default function FeaturedLocationsSection() {
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         >
           <h2 className="mb-8 text-6xl font-bold tracking-tighter text-white md:text-7xl lg:text-8xl">
-            Featured
-            <span className="gradient-text"> Locations</span>
+            Historical
+            <span className="gradient-text"> Landmarks</span>
           </h2>
           <p className="text-lg text-white/50 max-w-2xl mx-auto">
-            Discover the most remarkable spots in Meppel through our curated collection
+            Discover the physical remnants of Meppel&apos;s maritime heritage
           </p>
         </motion.div>
 
@@ -122,7 +122,7 @@ export default function FeaturedLocationsSection() {
                   className="flex items-center gap-3 text-sm font-medium text-indigo-400 transition-all hover:text-white"
                   whileHover={{ x: 8 }}
                 >
-                  Explore
+                  Explore History
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
                   </svg>

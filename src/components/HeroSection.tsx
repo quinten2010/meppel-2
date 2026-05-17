@@ -14,7 +14,7 @@ export default function HeroSection() {
 
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.3]);
-  const yText = useTransform(scrollYProgress, [0, 0.5], [0, -80]);
+  const yText = useTransform(scrollYProgress, [0, 0.5], [0, -100]);
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -34,7 +34,7 @@ export default function HeroSection() {
   }, []);
 
   const scrollToNext = () => {
-    const nextSection = document.getElementById("discovery");
+    const nextSection = document.getElementById("waterways");
     nextSection?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -46,7 +46,7 @@ export default function HeroSection() {
     >
       <div className="absolute inset-0">
         <Scene3D />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/60 to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black" />
       </div>
 
       <motion.div
@@ -54,24 +54,26 @@ export default function HeroSection() {
         style={{ y: yText }}
       >
         <motion.div
-          initial={{ opacity: 0, y: 60 }}
+          initial={{ opacity: 0, y: 80 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-8"
+          transition={{ duration: 1.5, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-12"
         >
           <h1 className="text-7xl font-bold tracking-tighter text-white sm:text-8xl md:text-9xl lg:text-[10rem]">
-            <span className="block mb-4">Discover</span>
-            <span className="gradient-text block">Meppel</span>
+            <span className="block mb-4">Meppel</span>
+            <span className="gradient-text block text-5xl sm:text-6xl md:text-7xl lg:text-8xl">
+              Built by Water
+            </span>
           </h1>
         </motion.div>
 
         <motion.p
-          className="mb-16 max-w-2xl text-xl text-white/60 md:text-2xl"
+          className="mb-20 max-w-2xl text-xl text-white/60 md:text-2xl"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-          A journey through time, culture, and innovation in the heart of Overijssel
+          A cinematic journey through 900 years of Dutch maritime heritage
         </motion.p>
 
         <motion.div
@@ -82,10 +84,10 @@ export default function HeroSection() {
         >
           <motion.button
             className="glass-strong rounded-full px-10 py-5 text-lg font-medium text-white transition-all hover:bg-white/10"
-            whileHover={{ scale: 1.03, boxShadow: "0 0 60px rgba(99, 103, 241, 0.4)" }}
+            whileHover={{ scale: 1.03, boxShadow: "0 0 80px rgba(99, 103, 241, 0.4)" }}
             whileTap={{ scale: 0.97 }}
           >
-            Start Exploration
+            Begin Journey
           </motion.button>
           <motion.button
             className="rounded-full border border-white/15 px-10 py-5 text-lg font-medium text-white/80 transition-all hover:bg-white/5 hover:text-white"
