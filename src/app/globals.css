@@ -1,70 +1,72 @@
 @import "tailwindcss";
 
 :root {
+  --color-primary: #6366f1;
+  --color-primary-hover: #8b5cf6;
+  --color-accent: #ec4899;
   --background: #0a0a0a;
-  --foreground: #ededed;
-  --primary: #6366f1;
-  --primary-glow: rgba(99, 103, 241, 0.4);
 }
 
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
+  --color-foreground: #f8fafc;
+  --color-primary: var(--color-primary);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 body {
-  background: linear-gradient(135deg, #0a0a0a 0%, #0f0f1a 50%, #0a0a0a 100%);
-  color: var(--foreground);
+  background: radial-gradient(ellipse at top, #0f0f1a 0%, #0a0a0a 70%);
+  color: var(--color-foreground);
   font-family: var(--font-geist-sans);
   min-height: 100vh;
   overflow-x: hidden;
+  letter-spacing: -0.02em;
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .glass-strong {
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(30px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(32px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 .text-glow {
-  text-shadow: 0 0 40px rgba(99, 103, 241, 0.3);
+  text-shadow: 0 0 60px rgba(99, 103, 241, 0.4);
 }
 
 .glow {
-  box-shadow: 0 0 60px rgba(99, 103, 241, 0.2);
+  box-shadow: 0 0 80px rgba(99, 103, 241, 0.25);
 }
 
-.glow-strong {
-  box-shadow: 0 0 80px rgba(99, 103, 241, 0.4);
+.glow-primary {
+  box-shadow: 0 0 100px rgba(99, 103, 241, 0.4);
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.noise-overlay {
+.noise {
   position: fixed;
   inset: 0;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.02;
+  opacity: 0.015;
   pointer-events: none;
   z-index: 9999;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-.parallax-layer {
-  will-change: transform;
+.container-pad {
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
 }
 
 html.lenis {
