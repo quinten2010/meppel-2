@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ParticleFooter } from "./ParticleFooter";
 
 export default function FooterSection() {
   return (
@@ -102,6 +103,7 @@ export default function FooterSection() {
           </motion.div>
         </motion.div>
       </div>
+      <ParticleFooter />
     </footer>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import Scene3D from "./Scene3D";
+import TunnelScene from "./TunnelScene";
 import Lenis from "lenis";
 
 export default function HeroSection() {
@@ -45,7 +45,7 @@ export default function HeroSection() {
       style={{ opacity, scale }}
     >
       <div className="absolute inset-0">
-        <Scene3D />
+        <TunnelScene />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black" />
       </div>
 
