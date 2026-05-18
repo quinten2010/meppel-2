@@ -1,16 +1,16 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { MEPPelTimeline } from "@/components/MEPPelTimeline";
+import { ParticleFooter } from "@/components/ParticleFooter";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
-  const [opacity, setOpacity] = useState(1);
-  const loaderRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setOpacity(0);
+      setVisible(false);
       setTimeout(() => setLoading(false), 750);
     }, 2000);
 
@@ -21,14 +21,14 @@ export default function Home() {
     <div id="app">
       {loading && (
         <div
-          ref={loaderRef}
           id="loader"
-          style={{ opacity, transition: "opacity 0.75s ease" }}
+          style={{ opacity: visible ? 1 : 0, transition: "opacity 0.75s ease" }}
         >
           <div className="ascii" />
         </div>
       )}
       <MEPPelTimeline />
+      <ParticleFooter />
     </div>
   );
 }

@@ -51,7 +51,6 @@ function createCanalShape(count: number) {
 function ParticleSystem({ hoverState }: { hoverState: number }) {
   const points = useRef<THREE.Points>(null!);
   const targetPositions = useRef<Float32Array>(createRandomPositions(PARTICLE_COUNT));
-
   const positions = useMemo(() => createRandomPositions(PARTICLE_COUNT), []);
 
   useEffect(() => {
@@ -65,7 +64,6 @@ function ParticleSystem({ hoverState }: { hoverState: number }) {
 
   useFrame((state) => {
     if (!points.current) return;
-
     const time = state.clock.getElapsedTime();
     const currentPos = points.current.geometry.attributes.position.array as Float32Array;
 
@@ -83,18 +81,9 @@ function ParticleSystem({ hoverState }: { hoverState: number }) {
   return (
     <points ref={points}>
       <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          args={[positions, 3]}
-        />
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
-      <pointsMaterial
-        size={0.1}
-        color="#ffffff"
-        transparent
-        opacity={0.7}
-        sizeAttenuation
-      />
+      <pointsMaterial size={0.1} color="#ffffff" transparent opacity={0.7} sizeAttenuation />
     </points>
   );
 }
@@ -103,11 +92,10 @@ export function ParticleFooter() {
   const [hoverState, setHoverState] = useState(0);
 
   return (
-    <div className="relative h-64 w-full" style={{ backgroundColor: "#A0A5B1" }}>
+    <div className="relative h-64 w-full bg-[#A0A5B1]">
       <Canvas camera={{ position: [0, 0, 20], fov: 75 }}>
         <ParticleSystem hoverState={hoverState} />
       </Canvas>
-
       <div className="absolute bottom-0 left-0 right-0 flex justify-center gap-8 pb-8">
         {[
           { label: "ARCHIVE", state: 2 },
@@ -116,16 +104,8 @@ export function ParticleFooter() {
         ].map((link) => (
           <button
             key={link.label}
-            style={{
-              fontFamily: "'IBMPlexMono-Medium', monospace",
-              fontSize: "17px",
-              fontWeight: "bold",
-              color: "#ffffff",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              textShadow: "0px 0px 5px rgba(255,255,255,0.4)",
-            }}
+            className="text-[#ffffff]/70 hover:text-[#ffffff] transition-colors font-mono text-lg font-bold"
+            style={{ textShadow: "0px 0px 5px rgba(255,255,255,0.4)", background: "none", border: "none", cursor: "pointer" }}
             onMouseEnter={() => setHoverState(link.state)}
             onMouseLeave={() => setHoverState(0)}
           >

@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable react-hooks/immutability */
+
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { IceBlock } from "./IceBlock";
@@ -68,7 +70,7 @@ function LetterScrambleText({
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 60px 'IBMPlexMono-Medium', monospace";
+    ctx.font = "bold 60px monospace";
     ctx.textAlign = "center";
     ctx.fillText(displayText, canvas.width / 2, 80);
     const tex = new THREE.CanvasTexture(canvas);
@@ -136,47 +138,49 @@ function MilestoneBlock({
   );
 }
 
-function CameraController() {
+function CameraController({ scrollProgress }: { scrollProgress: number }) {
   const { camera } = useThree();
-  const cameraZ = useRef(5);
 
-  /* eslint-disable react-hooks/immutability */
   useFrame(() => {
-    camera.position.z = cameraZ.current;
+    camera.position.z = 5 + scrollProgress * 175;
   });
-  /* eslint-enable react-hooks/immutability */
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: "#timeline-container",
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 1,
-          onUpdate: (self) => {
-            cameraZ.current = 5 + self.progress * 175;
-          },
-        },
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
 
   return null;
 }
 
 export function MEPPelTimeline() {
+  const containerRef = useRef<HTMLDivElement>(null!);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 1,
+          onUpdate: (self) => {
+            setScrollProgress(self.progress);
+          },
+        },
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div id="timeline-container" className="relative h-[400vh]">
-      <div className="sticky top-0 h-screen overflow-hidden">
+    <div ref={containerRef} className="relative h-[400vh] bg-[#A0A5B1]">
+      <div className="sticky top-0 h-screen">
         <Canvas
           camera={{ position: [0, 0, 5], fov: 75 }}
           gl={{ antialias: true, alpha: false }}
         >
           <color attach="background" args={["#A0A5B1"]} />
-          <CameraController />
+          <CameraController scrollProgress={scrollProgress} />
           <ambientLight intensity={0.3} />
           <pointLight position={[10, 10, 10]} intensity={1} />
           {milestones.map((m) => (
