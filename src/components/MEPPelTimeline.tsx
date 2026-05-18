@@ -1,6 +1,6 @@
 "use client";
 
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { IceBlock } from "./IceBlock";
 import { PostEffects } from "./PostEffects";
@@ -11,14 +11,14 @@ import * as THREE from "three";
 gsap.registerPlugin(ScrollTrigger);
 
 const milestones = [
-  { year: 1141, title: "Episcopal Inception", z: -0 },
-  { year: 1422, title: "Tower Construction", z: -25 },
-  { year: 1460, title: "Market Rights", z: -50 },
-  { year: 1644, title: "City Sovereignty", z: -75 },
-  { year: 1742, title: "Jewish Heritage", z: -100 },
-  { year: 1867, title: "The Iron Road", z: -125 },
-  { year: 1942, title: "The Great Void", z: -150 },
-  { year: 2026, title: "Port of Zwolle", z: -175 },
+  { year: 1141, title: "EPISCOPAL INCEPTION", z: 0 },
+  { year: 1422, title: "TOWER CONSTRUCTION", z: -25 },
+  { year: 1460, title: "MARKET RIGHTS", z: -50 },
+  { year: 1644, title: "CITY SOVEREIGNTY", z: -75 },
+  { year: 1742, title: "JEWISH HERITAGE", z: -100 },
+  { year: 1867, title: "THE IRON ROAD", z: -125 },
+  { year: 1942, title: "THE GREAT VOID", z: -150 },
+  { year: 2026, title: "PORT OF ZWOLLE", z: -175 },
 ];
 
 const scrambleChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -36,23 +36,28 @@ function LetterScrambleText({
   const [displayText, setDisplayText] = useState(text);
 
   useEffect(() => {
-    if (scramble) {
-      let iterations = 0;
-      const interval = setInterval(() => {
-        setDisplayText((prev) =>
-          prev
-            .split("")
-            .map((c, i) => {
-              if (i < iterations) return text[i] || c;
-              return scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
-            })
-            .join("")
-        );
-        iterations += 1 / 3;
-        if (iterations > text.length) clearInterval(interval);
-      }, 50);
-      return () => clearInterval(interval);
+    if (!scramble) {
+      /* eslint-disable-next-line react-hooks/set-state-in-effect */
+      setDisplayText(text);
+      return;
     }
+
+    let iterations = 0;
+    const interval = setInterval(() => {
+      setDisplayText((prev) =>
+        prev
+          .split("")
+          .map((c, i) => {
+            if (i < iterations) return text[i] || c;
+            return scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
+          })
+          .join("")
+      );
+      iterations += 1 / 3;
+      if (iterations > text.length) clearInterval(interval);
+    }, 50);
+
+    return () => clearInterval(interval);
   }, [scramble, text]);
 
   const texture = useMemo(() => {
@@ -62,8 +67,8 @@ function LetterScrambleText({
     const ctx = canvas.getContext("2d")!;
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#b6bac5";
-    ctx.font = "60px monospace";
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 60px 'IBMPlexMono-Medium', monospace";
     ctx.textAlign = "center";
     ctx.fillText(displayText, canvas.width / 2, 80);
     const tex = new THREE.CanvasTexture(canvas);
@@ -85,7 +90,7 @@ function LetterScrambleText({
         map={texture}
         transparent
         opacity={0.95}
-        color="#b6bac5"
+        color="#ffffff"
       />
     </mesh>
   );
@@ -101,6 +106,7 @@ function MilestoneBlock({
   z: number;
 }) {
   const groupRef = useRef<THREE.Group>(null!);
+  const [hovered, setHovered] = useState(false);
 
   useFrame(() => {
     if (groupRef.current) {
@@ -109,29 +115,42 @@ function MilestoneBlock({
   });
 
   return (
-    <group ref={groupRef} position={[0, 0, z]}>
-      <IceBlock position={[0, 0, 0]} />
+    <group
+      ref={groupRef}
+      position={[0, 0, z]}
+      onPointerEnter={() => setHovered(true)}
+      onPointerLeave={() => setHovered(false)}
+    >
+      <IceBlock position={[0, 0, 0]} hover={hovered} />
       <LetterScrambleText
         position={[0, -2.5, 0]}
         text={year.toString()}
+        scramble={hovered}
       />
       <LetterScrambleText
         position={[0, -3.3, 0]}
         text={title}
+        scramble={hovered}
       />
     </group>
   );
 }
 
-export function MEPPelTimeline() {
-  const canvasRef = useRef<HTMLDivElement>(null!);
+function CameraController() {
+  const { camera } = useThree();
   const cameraZ = useRef(5);
+
+  /* eslint-disable react-hooks/immutability */
+  useFrame(() => {
+    camera.position.z = cameraZ.current;
+  });
+  /* eslint-enable react-hooks/immutability */
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.timeline({
         scrollTrigger: {
-          trigger: canvasRef.current,
+          trigger: "#timeline-container",
           start: "top top",
           end: "bottom bottom",
           scrub: 1,
@@ -140,19 +159,24 @@ export function MEPPelTimeline() {
           },
         },
       });
-    }, canvasRef);
+    });
 
     return () => ctx.revert();
   }, []);
 
+  return null;
+}
+
+export function MEPPelTimeline() {
   return (
-    <div ref={canvasRef} className="relative h-[400vh] bg-[#383e4e]">
+    <div id="timeline-container" className="relative h-[400vh]">
       <div className="sticky top-0 h-screen overflow-hidden">
         <Canvas
           camera={{ position: [0, 0, 5], fov: 75 }}
           gl={{ antialias: true, alpha: false }}
         >
-          <color attach="background" args={["#383e4e"]} />
+          <color attach="background" args={["#A0A5B1"]} />
+          <CameraController />
           <ambientLight intensity={0.3} />
           <pointLight position={[10, 10, 10]} intensity={1} />
           {milestones.map((m) => (

@@ -1,8 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useFrame, extend } from "@react-three/fiber";
-import { shaderMaterial } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 const vertexShader = `
@@ -108,14 +107,6 @@ const fragmentShader = `
   }
 `;
 
-const IceMaterial = shaderMaterial(
-  { u_time: 0, u_hover: 0, u_color: new THREE.Color("#b6bac5"), u_noiseScale: new THREE.Vector3(2, 2, 2) },
-  vertexShader,
-  fragmentShader
-);
-
-extend({ IceMaterial });
-
 export function IceBlock({
   position,
   hover = false,
@@ -152,7 +143,7 @@ export function IceBlock({
         uniforms={{
           u_time: { value: 0 },
           u_hover: { value: 0 },
-          u_color: { value: new THREE.Color("#b6bac5") },
+          u_color: { value: new THREE.Color("#ffffff") },
           u_noiseScale: { value: new THREE.Vector3(2, 2, 2) },
         }}
         transparent

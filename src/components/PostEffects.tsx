@@ -1,6 +1,6 @@
 "use client";
 
-import { EffectComposer, ChromaticAberration, Noise } from "@react-three/postprocessing";
+import { EffectComposer, ChromaticAberration, Noise, Vignette } from "@react-three/postprocessing";
 import { BlendFunction } from "postprocessing";
 
 export function PostEffects() {
@@ -14,6 +14,11 @@ export function PostEffects() {
         premultiply
         blendFunction={BlendFunction.SOFT_LIGHT}
         opacity={0.15}
+      />
+      <Vignette
+        eskil={false}
+        offset={0.1}
+        darkness={0.5}
       />
     </EffectComposer>
   );

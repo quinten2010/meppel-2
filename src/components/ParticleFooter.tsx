@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import * as THREE from "three";
 
 const PARTICLE_COUNT = 2000;
@@ -90,7 +90,7 @@ function ParticleSystem({ hoverState }: { hoverState: number }) {
       </bufferGeometry>
       <pointsMaterial
         size={0.1}
-        color="#b6bac5"
+        color="#ffffff"
         transparent
         opacity={0.7}
         sizeAttenuation
@@ -99,26 +99,33 @@ function ParticleSystem({ hoverState }: { hoverState: number }) {
   );
 }
 
-import { useEffect, useState } from "react";
-
 export function ParticleFooter() {
   const [hoverState, setHoverState] = useState(0);
 
   return (
-    <div className="relative h-64 w-full bg-[#383e4e]">
+    <div className="relative h-64 w-full" style={{ backgroundColor: "#A0A5B1" }}>
       <Canvas camera={{ position: [0, 0, 20], fov: 75 }}>
         <ParticleSystem hoverState={hoverState} />
       </Canvas>
 
       <div className="absolute bottom-0 left-0 right-0 flex justify-center gap-8 pb-8">
         {[
-          { label: "Archive", state: 2 },
-          { label: "Canals", state: 3 },
-          { label: "Contact", state: 1 },
+          { label: "ARCHIVE", state: 2 },
+          { label: "CANALS", state: 3 },
+          { label: "CONTACT", state: 1 },
         ].map((link) => (
           <button
             key={link.label}
-            className="glass rounded-full px-6 py-2 text-[#b6bac5]/70 hover:text-[#b6bac5] transition-colors"
+            style={{
+              fontFamily: "'IBMPlexMono-Medium', monospace",
+              fontSize: "17px",
+              fontWeight: "bold",
+              color: "#ffffff",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              textShadow: "0px 0px 5px rgba(255,255,255,0.4)",
+            }}
             onMouseEnter={() => setHoverState(link.state)}
             onMouseLeave={() => setHoverState(0)}
           >

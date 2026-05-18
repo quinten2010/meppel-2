@@ -1,15 +1,34 @@
+"use client";
+
+import { useEffect, useState, useRef } from "react";
 import { MEPPelTimeline } from "@/components/MEPPelTimeline";
-import { IntroSequence } from "@/components/IntroSequence";
-import { ParticleFooter } from "@/components/ParticleFooter";
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+  const [opacity, setOpacity] = useState(1);
+  const loaderRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setOpacity(0);
+      setTimeout(() => setLoading(false), 750);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <>
-      <IntroSequence />
-      <main className="relative bg-[#383e4e] text-[#b6bac5]">
-        <MEPPelTimeline />
-        <ParticleFooter />
-      </main>
-    </>
+    <div id="app">
+      {loading && (
+        <div
+          ref={loaderRef}
+          id="loader"
+          style={{ opacity, transition: "opacity 0.75s ease" }}
+        >
+          <div className="ascii" />
+        </div>
+      )}
+      <MEPPelTimeline />
+    </div>
   );
 }
