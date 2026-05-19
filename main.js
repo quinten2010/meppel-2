@@ -256,78 +256,33 @@ class PremiumTimeline {
   }
 
   createEnhancedLabel(milestone, zPos, index) {
-    // Year label
+    // Year Enhancement
     const yearCanvas = this.createCanvasTexture(
-      milestone.year.toString(),
+      `${milestone.year} | ${milestone.title}`,
       {
-        fontSize: 80,
+        fontSize: 60,
         weight: 'bold',
         color: '#ffffff',
-        padding: 40,
+        padding: 50,
+        maxWidth: 800,
       }
     );
 
-    const yearMesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(6, 1.5),
+    const labelMesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(16, 2),
       new THREE.MeshBasicMaterial({
         map: yearCanvas,
         transparent: true,
+        opacity: 1,
       })
     );
-    yearMesh.position.set(0, 2.5, zPos);
-    yearMesh.castShadow = false;
-    this.scene.add(yearMesh);
+    labelMesh.position.set(0, 0, zPos + 4.5);
+    this.scene.add(labelMesh);
 
-    // Title label
-    const titleCanvas = this.createCanvasTexture(
-      milestone.title,
-      {
-        fontSize: 46,
-        weight: 'bold',
-        color: '#ffffff',
-        padding: 30,
-      }
-    );
-
-    const titleMesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(9, 1.2),
-      new THREE.MeshBasicMaterial({
-        map: titleCanvas,
-        transparent: true,
-      })
-    );
-    titleMesh.position.set(0, 0.8, zPos);
-    titleMesh.castShadow = false;
-    this.scene.add(titleMesh);
-
-    // Description label
-    const descriptionCanvas = this.createCanvasTexture(
-      milestone.description,
-      {
-        fontSize: 22,
-        weight: 'normal',
-        color: '#aaaaaa',
-        padding: 20,
-        maxWidth: 450,
-      }
-    );
-
-    const descriptionMesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(10, 1.5),
-      new THREE.MeshBasicMaterial({
-        map: descriptionCanvas,
-        transparent: true,
-        opacity: 0,
-      })
-    );
-    descriptionMesh.position.set(0, -1.8, zPos);
-    descriptionMesh.castShadow = false;
-    this.scene.add(descriptionMesh);
-
+    // Assign label for updates or visibility changes
     this.labels.push({
-      year: yearMesh,
-      title: titleMesh,
-      description: descriptionMesh,
+      label: labelMesh,
+      index,
     });
   }
 
@@ -392,6 +347,27 @@ class PremiumTimeline {
   setupScrollTrigger() {
     const totalDistance = MILESTONES.length * 50;
     document.body.style.height = `${totalDistance * 30}vh`;
+
+    MILESTONES.forEach((_, index) => {
+      const milestoneTrigger = gsap.timeline({
+        scrollTrigger: {
+          trigger: `#milestone-${index + 1}`,
+          start: "center center",
+          end: "bottom center",
+          scrub: true,
+        },
+      });
+
+      // Add tailored animations for each milestone
+      milestoneTrigger.to(this.blocks[index].container.rotation, {
+        x: 0.4 * Math.PI,
+        duration: 2,
+      });
+      milestoneTrigger.to(this.blocks[index].container.rotation, {
+        y: 0.5 * Math.PI,
+        duration: 2,
+      }, '<');
+    });
 
     gsap.to(this, {
       scrollProgress: 1,
