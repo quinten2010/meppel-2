@@ -36,6 +36,7 @@ class PremiumTimeline {
     this.targetScroll = 0;
     this.particleSystem = null;
     this.currentMilestoneIndex = 0;
+    this.orbitalElements = [];
 
     this.init();
   }
@@ -58,63 +59,64 @@ class PremiumTimeline {
     this.renderer.setClearColor(0x0a0e27, 1);
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
+    this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     document.getElementById('app').appendChild(this.renderer.domElement);
   }
 
   setupCamera() {
-    this.camera.position.set(0, 0, 8);
+    this.camera.position.set(0, 2, 8);
     this.camera.lookAt(0, 0, 0);
   }
 
   setupLighting() {
     // Ambient light for base illumination
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.35);
     this.scene.add(ambientLight);
 
     // Main directional light
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    dirLight.position.set(10, 10, 10);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+    dirLight.position.set(20, 20, 20);
     dirLight.castShadow = true;
-    dirLight.shadow.mapSize.width = 2048;
-    dirLight.shadow.mapSize.height = 2048;
+    dirLight.shadow.mapSize.width = 4096;
+    dirLight.shadow.mapSize.height = 4096;
     dirLight.shadow.camera.near = 0.5;
     dirLight.shadow.camera.far = 500;
     this.scene.add(dirLight);
 
     // Right accent light (cyan)
-    const rightLight = new THREE.PointLight(0x00d4ff, 0.6);
-    rightLight.position.set(15, 0, 5);
+    const rightLight = new THREE.PointLight(0x00d4ff, 0.8);
+    rightLight.position.set(25, 5, 10);
     this.scene.add(rightLight);
 
     // Left accent light (magenta)
-    const leftLight = new THREE.PointLight(0xff00ff, 0.4);
-    leftLight.position.set(-15, 0, 5);
+    const leftLight = new THREE.PointLight(0xff00ff, 0.6);
+    leftLight.position.set(-25, 5, 10);
     this.scene.add(leftLight);
 
     // Back light
-    const backLight = new THREE.PointLight(0xffffff, 0.3);
-    backLight.position.set(0, 0, 15);
+    const backLight = new THREE.PointLight(0x00ffff, 0.5);
+    backLight.position.set(0, 0, 25);
     this.scene.add(backLight);
   }
 
   setupScene() {
-    this.scene.fog = new THREE.Fog(0x0a0e27, 50, 200);
+    this.scene.fog = new THREE.Fog(0x0a0e27, 80, 300);
   }
 
   createParticleSystem() {
-    const particleCount = 800;
+    const particleCount = 1200;
     const particles = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const velocities = new Float32Array(particleCount * 3);
 
     for (let i = 0; i < particleCount * 3; i += 3) {
-      positions[i] = (Math.random() - 0.5) * 100;
-      positions[i + 1] = (Math.random() - 0.5) * 100;
-      positions[i + 2] = (Math.random() - 0.5) * 100;
+      positions[i] = (Math.random() - 0.5) * 150;
+      positions[i + 1] = (Math.random() - 0.5) * 150;
+      positions[i + 2] = (Math.random() - 0.5) * 150;
 
-      velocities[i] = (Math.random() - 0.5) * 0.05;
-      velocities[i + 1] = (Math.random() - 0.5) * 0.05;
-      velocities[i + 2] = (Math.random() - 0.5) * 0.05;
+      velocities[i] = (Math.random() - 0.5) * 0.03;
+      velocities[i + 1] = (Math.random() - 0.5) * 0.03;
+      velocities[i + 2] = (Math.random() - 0.5) * 0.03;
     }
 
     particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -122,10 +124,10 @@ class PremiumTimeline {
 
     const material = new THREE.PointsMaterial({
       color: 0x00d4ff,
-      size: 0.1,
+      size: 0.15,
       sizeAttenuation: true,
       transparent: true,
-      opacity: 0.3,
+      opacity: 0.2,
     });
 
     this.particleSystem = new THREE.Points(particles, material);
@@ -145,51 +147,112 @@ class PremiumTimeline {
     ];
 
     MILESTONES.forEach((milestone, index) => {
-      const zPos = index * -40;
+      const zPos = index * -50;
 
-      // Create main cube with premium material
-      const geometry = new THREE.BoxGeometry(3.5, 3.5, 3.5);
-      const material = new THREE.MeshStandardMaterial({
-        color: colors[index],
-        metalness: 0.3,
-        roughness: 0.4,
-        emissive: colors[index],
-        emissiveIntensity: 0.2,
-      });
-
-      const cube = new THREE.Mesh(geometry, material);
-      cube.position.z = zPos;
-      cube.position.y = 0;
-      cube.castShadow = true;
-      cube.receiveShadow = true;
-      cube.rotation.x = 0.4;
-      cube.rotation.y = 0.5;
-      cube.userData.color = colors[index];
-      cube.userData.targetRotation = { x: 0.4, y: 0.5 };
-
-      this.scene.add(cube);
-      this.blocks.push(cube);
-
-      // Create glowing outline
-      const outlineGeometry = new THREE.BoxGeometry(3.8, 3.8, 3.8);
-      const outlineMaterial = new THREE.MeshBasicMaterial({
-        color: colors[index],
-        wireframe: true,
-        transparent: true,
-        opacity: 0.1,
-      });
-      const outline = new THREE.Mesh(outlineGeometry, outlineMaterial);
-      outline.position.copy(cube.position);
-      outline.rotation.copy(cube.rotation);
-      this.scene.add(outline);
-
-      // Create floating text label
-      this.createEnhancedLabel(
-        milestone,
-        zPos,
-        index
-      );
+      // Create main showcase block with multiple layers
+      this.createShowcaseBlock(milestone, index, zPos, colors[index]);
     });
+  }
+
+  createShowcaseBlock(milestone, index, zPos, color) {
+    const groupContainer = new THREE.Group();
+    groupContainer.position.z = zPos;
+
+    // Layer 1: Inner core with metallic material
+    const coreGeometry = new THREE.BoxGeometry(2.5, 2.5, 2.5);
+    const coreMaterial = new THREE.MeshStandardMaterial({
+      color: color,
+      metalness: 0.4,
+      roughness: 0.3,
+      emissive: color,
+      emissiveIntensity: 0.3,
+    });
+    const core = new THREE.Mesh(coreGeometry, coreMaterial);
+    core.castShadow = true;
+    core.receiveShadow = true;
+    core.rotation.x = 0.3;
+    core.rotation.y = 0.4;
+    groupContainer.add(core);
+
+    // Layer 2: Outer glowing wireframe
+    const wireframeGeometry = new THREE.BoxGeometry(3.2, 3.2, 3.2);
+    const wireframeMaterial = new THREE.MeshBasicMaterial({
+      color: color,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.15,
+    });
+    const wireframe = new THREE.Mesh(wireframeGeometry, wireframeMaterial);
+    wireframe.rotation.x = -0.2;
+    wireframe.rotation.y = -0.3;
+    groupContainer.add(wireframe);
+
+    // Layer 3: Floating octahedron inside
+    const octaGeometry = new THREE.OctahedronGeometry(1.2, 0);
+    const octaMaterial = new THREE.MeshStandardMaterial({
+      color: color,
+      metalness: 0.7,
+      roughness: 0.2,
+      emissive: color,
+      emissiveIntensity: 0.4,
+      wireframe: false,
+    });
+    const octahedron = new THREE.Mesh(octaGeometry, octaMaterial);
+    octahedron.castShadow = true;
+    octahedron.receiveShadow = true;
+    octahedron.scale.set(0.8, 0.8, 0.8);
+    groupContainer.add(octahedron);
+
+    // Layer 4: Rotating ring elements
+    const ringGeometry = new THREE.TorusGeometry(2.8, 0.15, 16, 100);
+    const ringMaterial = new THREE.MeshStandardMaterial({
+      color: color,
+      metalness: 0.6,
+      roughness: 0.2,
+      emissive: color,
+      emissiveIntensity: 0.2,
+    });
+    const ring1 = new THREE.Mesh(ringGeometry, ringMaterial);
+    ring1.rotation.x = 0.7;
+    ring1.castShadow = true;
+    ring1.receiveShadow = true;
+    groupContainer.add(ring1);
+
+    const ring2 = new THREE.Mesh(ringGeometry, ringMaterial);
+    ring2.rotation.y = 0.7;
+    ring2.castShadow = true;
+    ring2.receiveShadow = true;
+    groupContainer.add(ring2);
+
+    // Layer 5: Glowing aura sphere
+    const auraGeometry = new THREE.IcosahedronGeometry(3.5, 3);
+    const auraMaterial = new THREE.MeshBasicMaterial({
+      color: color,
+      transparent: true,
+      opacity: 0.05,
+      wireframe: true,
+    });
+    const aura = new THREE.Mesh(auraGeometry, auraMaterial);
+    groupContainer.add(aura);
+
+    this.scene.add(groupContainer);
+
+    // Store references for animation
+    this.blocks.push({
+      container: groupContainer,
+      core: core,
+      wireframe: wireframe,
+      octahedron: octahedron,
+      ring1: ring1,
+      ring2: ring2,
+      aura: aura,
+      color: color,
+      targetRotation: { x: 0.3, y: 0.4 },
+      index: index,
+    });
+
+    // Create labels
+    this.createEnhancedLabel(milestone, zPos, index);
   }
 
   createEnhancedLabel(milestone, zPos, index) {
@@ -197,7 +260,7 @@ class PremiumTimeline {
     const yearCanvas = this.createCanvasTexture(
       milestone.year.toString(),
       {
-        fontSize: 72,
+        fontSize: 80,
         weight: 'bold',
         color: '#ffffff',
         padding: 40,
@@ -205,13 +268,13 @@ class PremiumTimeline {
     );
 
     const yearMesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(5, 1.2),
+      new THREE.PlaneGeometry(6, 1.5),
       new THREE.MeshBasicMaterial({
         map: yearCanvas,
         transparent: true,
       })
     );
-    yearMesh.position.set(0, 2, zPos);
+    yearMesh.position.set(0, 2.5, zPos);
     yearMesh.castShadow = false;
     this.scene.add(yearMesh);
 
@@ -219,7 +282,7 @@ class PremiumTimeline {
     const titleCanvas = this.createCanvasTexture(
       milestone.title,
       {
-        fontSize: 42,
+        fontSize: 46,
         weight: 'bold',
         color: '#ffffff',
         padding: 30,
@@ -227,37 +290,37 @@ class PremiumTimeline {
     );
 
     const titleMesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(7, 1),
+      new THREE.PlaneGeometry(9, 1.2),
       new THREE.MeshBasicMaterial({
         map: titleCanvas,
         transparent: true,
       })
     );
-    titleMesh.position.set(0, 0.5, zPos);
+    titleMesh.position.set(0, 0.8, zPos);
     titleMesh.castShadow = false;
     this.scene.add(titleMesh);
 
-    // Description label (only for selected milestone)
+    // Description label
     const descriptionCanvas = this.createCanvasTexture(
       milestone.description,
       {
-        fontSize: 20,
+        fontSize: 22,
         weight: 'normal',
         color: '#aaaaaa',
         padding: 20,
-        maxWidth: 400,
+        maxWidth: 450,
       }
     );
 
     const descriptionMesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(8, 1.2),
+      new THREE.PlaneGeometry(10, 1.5),
       new THREE.MeshBasicMaterial({
         map: descriptionCanvas,
         transparent: true,
         opacity: 0,
       })
     );
-    descriptionMesh.position.set(0, -1.5, zPos);
+    descriptionMesh.position.set(0, -1.8, zPos);
     descriptionMesh.castShadow = false;
     this.scene.add(descriptionMesh);
 
@@ -327,7 +390,7 @@ class PremiumTimeline {
   }
 
   setupScrollTrigger() {
-    const totalDistance = MILESTONES.length * 40;
+    const totalDistance = MILESTONES.length * 50;
     document.body.style.height = `${totalDistance * 30}vh`;
 
     gsap.to(this, {
@@ -362,8 +425,8 @@ class PremiumTimeline {
     const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
 
     this.blocks.forEach((block) => {
-      block.userData.targetRotation.x = 0.4 + mouseY * 0.3;
-      block.userData.targetRotation.y = 0.5 + mouseX * 0.3;
+      block.targetRotation.x = 0.3 + mouseY * 0.2;
+      block.targetRotation.y = 0.4 + mouseX * 0.2;
     });
   }
 
@@ -380,42 +443,67 @@ class PremiumTimeline {
         positions[i + 1] += velocities[i + 1];
         positions[i + 2] += velocities[i + 2];
 
-        // Wrap around
-        if (Math.abs(positions[i]) > 50) velocities[i] *= -1;
-        if (Math.abs(positions[i + 1]) > 50) velocities[i + 1] *= -1;
-        if (Math.abs(positions[i + 2]) > 50) velocities[i + 2] *= -1;
+        if (Math.abs(positions[i]) > 75) velocities[i] *= -1;
+        if (Math.abs(positions[i + 1]) > 75) velocities[i + 1] *= -1;
+        if (Math.abs(positions[i + 2]) > 75) velocities[i + 2] *= -1;
       }
 
       this.particleSystem.geometry.attributes.position.needsUpdate = true;
-      this.particleSystem.rotation.x += 0.0001;
-      this.particleSystem.rotation.y += 0.0001;
+      this.particleSystem.rotation.x += 0.00005;
+      this.particleSystem.rotation.y += 0.00005;
     }
 
-    // Update blocks
+    // Update blocks with enhanced animations
     this.blocks.forEach((block, index) => {
-      block.rotation.x += (block.userData.targetRotation.x - block.rotation.x) * 0.05;
-      block.rotation.y += (block.userData.targetRotation.y - block.rotation.y) * 0.05;
-      block.rotation.z += 0.0003;
+      // Core rotations
+      block.core.rotation.x += (block.targetRotation.x - block.core.rotation.x) * 0.05;
+      block.core.rotation.y += (block.targetRotation.y - block.core.rotation.y) * 0.05;
+      block.core.rotation.z += 0.0002;
 
-      // Subtle scale animation
-      const baseScale = 1;
-      const distance = Math.abs(block.position.z - (this.camera.position.z + this.targetScroll));
-      const scale = baseScale + Math.sin(Date.now() * 0.001 + index) * 0.02;
-      block.scale.set(scale, scale, scale);
+      // Counter-rotating wireframe
+      block.wireframe.rotation.x -= 0.0003;
+      block.wireframe.rotation.y -= 0.0002;
+      block.wireframe.rotation.z += 0.0001;
+
+      // Pulsing octahedron
+      const pulse = 0.8 + Math.sin(Date.now() * 0.002 + index * 0.5) * 0.15;
+      block.octahedron.scale.set(pulse, pulse, pulse);
+      block.octahedron.rotation.x += 0.003;
+      block.octahedron.rotation.y += 0.004;
+
+      // Rotating rings
+      block.ring1.rotation.x += 0.002;
+      block.ring1.rotation.y += 0.001;
+      block.ring2.rotation.y += 0.0015;
+      block.ring2.rotation.z += 0.0008;
+
+      // Aura rotation
+      block.aura.rotation.x += 0.0001;
+      block.aura.rotation.y += 0.0001;
+
+      // Subtle floating motion
+      const float = Math.sin(Date.now() * 0.0008 + index) * 0.3;
+      block.container.position.y = float;
     });
 
-    // Update camera based on scroll
-    this.camera.position.z = 8 + this.scrollProgress * 280;
-    this.camera.position.y = Math.sin(this.scrollProgress * Math.PI * 2) * 2;
+    // Enhanced camera movement - orbits and moves dynamically
+    const scrollZ = this.scrollProgress * 350;
+    const orbitX = Math.sin(this.scrollProgress * Math.PI * 1.5) * 3;
+    const orbitY = Math.cos(this.scrollProgress * Math.PI * 0.8) * 2;
+    
+    this.camera.position.z = 8 + scrollZ;
+    this.camera.position.x = orbitX;
+    this.camera.position.y = 2 + orbitY;
 
-    // Update description visibility based on proximity to milestone
-    const currentMilestoneZ = Math.round(this.camera.position.z / 40) * 40;
-    const milestoneIndex = Math.round(this.camera.position.z / 40);
+    // Look slightly ahead
+    const lookAhead = scrollZ + 30;
+    this.camera.lookAt(0, 0, lookAhead);
 
+    // Update description visibility
     this.labels.forEach((label, i) => {
-      const distance = Math.abs(i * 40 - this.camera.position.z + 8);
-      const opacity = Math.max(0, 1 - distance / 20);
-      label.description.material.opacity = opacity * 0.8;
+      const distance = Math.abs(i * 50 - (this.camera.position.z - 8));
+      const opacity = Math.max(0, 1 - distance / 25);
+      label.description.material.opacity = opacity * 0.85;
     });
 
     this.renderer.render(this.scene, this.camera);
