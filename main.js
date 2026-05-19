@@ -28,14 +28,21 @@ class App {
   init() {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setClearColor(0xA0A5B1);
+    this.renderer.setClearColor(0x1a1a2e);
     document.getElementById('app').appendChild(this.renderer.domElement);
     this.camera.position.z = 5;
     
-    this.scene.add(new THREE.AmbientLight(0xffffff, 1));
-    const light = new THREE.PointLight(0xffffff, 1);
-    light.position.set(0, 0, 10);
-    this.scene.add(light);
+    // Improved lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    this.scene.add(ambientLight);
+    
+    const pointLight1 = new THREE.PointLight(0xffffff, 1.2);
+    pointLight1.position.set(5, 5, 10);
+    this.scene.add(pointLight1);
+    
+    const pointLight2 = new THREE.PointLight(0x4ECDC4, 0.8);
+    pointLight2.position.set(-5, -5, 10);
+    this.scene.add(pointLight2);
     
     this.createMilestones();
     this.setupScroll();
@@ -48,7 +55,7 @@ class App {
     MILESTONES.forEach((m, index) => {
       const block = new THREE.Mesh(
         new THREE.BoxGeometry(2, 2, 2),
-        new THREE.MeshStandardMaterial({ color: colors[index], transparent: true, opacity: 0.8 })
+        new THREE.MeshStandardMaterial({ color: colors[index], transparent: true, opacity: 0.9, emissive: colors[index], emissiveIntensity: 0.2 })
       );
       block.position.z = m.z;
       block.rotation.x = 0.3;
@@ -56,24 +63,34 @@ class App {
       this.scene.add(block);
       this.blocks.push(block);
       
-      this.createLabel(m.year.toString(), 0, -1.8, m.z);
-      this.createLabel(m.title, 0, -2.5, m.z);
+      // Position labels below the block
+      this.createLabel(m.year.toString(), 0, -3, m.z, 'year');
+      this.createLabel(m.title, 0, -3.8, m.z, 'title');
     });
   }
 
-  createLabel(text, x, y, z) {
+  createLabel(text, x, y, z, type = 'default') {
     const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 128;
+    const isYear = type === 'year';
+    const fontSize = isYear ? 64 : 40;
+    
+    canvas.width = 1024;
+    canvas.height = isYear ? 256 : 200;
     const ctx = canvas.getContext('2d');
+    
+    // Add background for better text visibility
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Draw text
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 48px monospace';
+    ctx.font = `bold ${fontSize}px monospace`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(text, 256, 64);
+    ctx.fillText(text, canvas.width / 2, canvas.height / 2);
     
     const mesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(3, 0.75),
+      new THREE.PlaneGeometry(isYear ? 6 : 8, isYear ? 1.5 : 1.2),
       new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(canvas), transparent: true })
     );
     mesh.position.set(x, y, z);
