@@ -1,17 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meppel Timeline</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meppel Timeline - Interactive 3D History</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
   <style>
-    * { margin: 0; padding: 0; }
-    html, body { width: 100%; height: 100%; overflow: hidden; background: #1a1a2e; }
-    #app { width: 100%; height: 100%; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0a0e27;
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+
+    #app {
+      width: 100%;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    /* Scroll bar styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 212, 255, 0.5);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 212, 255, 0.8);
+    }
+
+    /* Smooth scroll behavior */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Optional: Add UI overlay */
+    .timeline-info {
+      position: fixed;
+      top: 40px;
+      left: 40px;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .timeline-info h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .timeline-info p {
+      font-size: 14px;
+      color: #aaaaaa;
+      font-weight: 300;
+    }
+
+    /* Instructions */
+    .scroll-hint {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      text-align: center;
+      pointer-events: none;
+      animation: fadeInOut 3s ease-in-out infinite;
+    }
+
+    .scroll-hint p {
+      font-size: 12px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .scroll-indicator {
+      width: 24px;
+      height: 40px;
+      border: 1px solid #888;
+      border-radius: 12px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scroll-indicator::after {
+      content: '';
+      width: 2px;
+      height: 6px;
+      background: #888;
+      border-radius: 1px;
+      animation: scroll 1.5s ease-in-out infinite;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateY(-8px);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(4px);
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeInOut {
+      0%,
+      100% {
+        opacity: 0.5;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    /* Performance optimization */
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
   </style>
 </head>
 <body>
   <div id="app"></div>
+  
+  <div class="timeline-info">
+    <h1>Meppel Timeline</h1>
+    <p>Scroll through 885 years of history</p>
+  </div>
+
+  <div class="scroll-hint">
+    <p>Scroll to explore</p>
+    <div class="scroll-indicator"></div>
+  </div>
+
   <script type="module" src="/main.js"></script>
 </body>
 </html>
